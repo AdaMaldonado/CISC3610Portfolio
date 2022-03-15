@@ -29,7 +29,6 @@ Scene.start = function () {
 document.addEventListener( 'DOMContentLoaded', Scene.start);
 
 Scene.clearCanvas = function () {
-	Scene.canvasContext.fillText("Eating Animation",10,30);
 	Scene.canvasContext.fillStyle = "white"
     	Scene.canvasContext.fillRect(0, 0, Scene.canvas.width, Scene.canvas.height);
 };
