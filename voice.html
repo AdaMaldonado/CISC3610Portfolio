@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Voice Recognition Project</title>
+    <h1>Voice Recognition Project</h1>
+</head>
+
+  <body>
+      <div>
+        <canvas id="obj" width="800" height="600"></canvas>
+        <p>Say a name of the object to see the object on the screen.</p>
+        <p>Say "Help" to hear the instructions.</p>
+        <p>Say "About" to hear about the program.</p>
+        <p id="words"></p>
+        <br>
+        <button id="speakB">Speak</button>
+      </div>
+
+      <script>
+          const obj = document.getElementById('obj');
+          const ctx = obj.getContext('2d');
+
+          //Displays all the words that can be said from the project
+          function draw(){ 
+            ctx.font = "30px Arial";
+            ctx.fillText('Apple', 0, 50);
+            ctx.fillText('Banana',100, 50);
+            ctx.fillText('Kiwi',250, 50);
+            ctx.fillText('Watermelon',350, 50);
+            ctx.fillText('Mango',550, 50);
+        }
+            
+        draw();
+
+        //here are all the images that will be displayed
+        var apple = new Image();
+        apple.src = 'apple.png';
+
+        var banana = new Image();
+        banana.src = 'banana.jpg';
+
+        var kiwi = new Image();
+        kiwi.src = 'kiwi.jpg';
+
+        var watermelon = new Image();
+        watermelon.src = 'watermelon.jpg';
+
+        var mango = new Image();
+        mango.src = 'mango.jpg';
+
+        var unknown = new Image();
+        unknown.src = "unknown.png"
+
+        //speakB is the button and words is the paragraph that will store the word said
+        const speakB = document.getElementById('speakB');
+        let words = document.getElementById('words');
+
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+
+        //when the button is clicked
+        speakB.onclick = function(){
+            if(speakB.innerText === 'Speak') {
+                draw();
+
+                //makes the button say stop
+                let wordtotext ='';
+                speakB.innerText = 'Stop';
+                recognition.lang = 'en';
+
+                //takes the speak recognition and turns/stores into text
+                recognition.start();
+                recognition.addEventListener('result', e=>{ 
+                    const transcript = Array.from(e.results)
+                    .map(result => result[0])
+                    .map(result => result.transcript)
+                    .join('');
+                
+                    //makes the text lowercase, which allows easier access for images
+                    wordtotext = transcript.toLowerCase();
+                    words.textContent = wordtotext;
+                });
+            }
+
+            //makes the button say speak
+            else if(speakB.innerText === 'Stop') {
+                speakB.innerText = 'Speak';
+                recognition.abort();
+            }
+        };
+
+        //gets the right picture corelated to the text given
+        function getPicture(text){
+            if(text.includes('apple')){
+                ctx.drawImage(apple, 100,100, 300,300);
+
+            } else if(text.includes('banana')){
+                ctx.drawImage(banana,100, 100,300,300);
+
+            } else if(text.includes('kiwi')){
+                ctx.drawImage(kiwi, 100, 100, 300,300);
+
+            } else if(text.includes('watermelon')){
+                ctx.drawImage(watermelon, 100, 100, 300, 300);
+
+            } else if(text.includes('mango')){
+                ctx.drawImage(mango, 100, 100, 300, 300);
+
+                //for help and about, instead of an image, the program will speak back to the user
+            } else if(text.includes('about')){
+                speak('Ada Maldonado 2022');
+
+            } else if(text.includes('help')){
+                speak('Say a name of the object on the screen. Say about, to hear about the program.');
+
+                //anything that is not the words above, or help and about will be considered unknown
+            }else {
+                ctx.drawImage(unknown,100,100,300,300);
+            }
+        }
+
+        //this will allow the program to talk to the user
+        function speak(text, callback) {
+            var req = new SpeechSynthesisUtterance();
+            req.text = text;
+            req.lang = 'en-US';
+
+            speechSynthesis.speak(req);
+            req.onerror = function (e) 
+            {
+                if (callback) {callback(e);}
+            }
+            req.onend = function ()
+            {
+                if (callback) {callback();}
+            };
+        }
+
+        recognition.interimResults = true;
+
+        //the program here will get the word, display it, show a picture and repeat aloud
+        recognition.addEventListener('end', e=>{
+            speakB.innerText = 'Speak'; 
+            speak(words.textContent);
+            getPicture(words.textContent);
+            recognition.abort();
+        });
+
+      </script>
+      <br><br>
+      <a href="index.html">Home</a>
+  </body>
+</html>
