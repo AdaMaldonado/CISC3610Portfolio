@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Drag and Drop</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
+</head>
+
+<body>
+	<h1>Drag and Drop Lab</h1>
+    <p>Moveable fruit and vegetables, you can organize them by color, create a face, etc.</p>
+        <script>
+            var config = {
+                type: Phaser.AUTO,
+                width: 700,
+                height: 500,
+                _parent: 'phaser-example',
+                backgroundColor: '#efefef',
+                scene: {
+                    preload: preload,
+                    create: create
+                }
+            };
+
+            var game = new Phaser.Game(config);
+
+            function preload ()
+            {
+                this.load.setBaseURL('http://labs.phaser.io');
+                this.load.image('background', 'assets/sprites/platform.png');
+
+                this.load.image('apple', 'assets/sprites/apple.png');
+                this.load.image('carrot', 'assets/sprites/carrot.png');
+                this.load.image('eggplant', 'assets/sprites/eggplant.png');
+                this.load.image('melon', 'assets/sprites/melon.png');
+                this.load.image('tomato', 'assets/sprites/tomato.png');
+                this.load.image('onion', 'assets/sprites/onion.png');
+                this.load.image('pineapple', 'assets/sprites/pineapple.png');
+                this.load.image('pepper', 'assets/sprites/pepper.png');
+                this.load.image('mushroom', 'assets/sprites/mushroom.png');
+            }
+
+            function create ()
+            {
+                var background = this.add.sprite(1,1,'background');
+                background.setScale(100)
+
+                var apple = this.add.sprite(100, 100, 'apple');
+                var carrot = this.add.sprite(150, 100, 'carrot');
+                var eggplant = this.add.sprite(200, 100, 'eggplant');
+                var melon = this.add.sprite(250, 100, 'melon');
+                var tomato = this.add.sprite(300, 100, 'tomato');
+                var onion = this.add.sprite(350, 100, 'onion');
+                var pineapple = this.add.sprite(400, 100, 'pineapple');
+                var pepper = this.add.sprite(450, 100, 'pepper');
+                var mushroom = this.add.sprite(500, 100, 'mushroom');
+
+                carrot.setScale(3);
+                eggplant.setScale(3);
+                melon.setScale(3);
+                tomato.setScale(2);
+                onion.setScale(2);
+                pineapple.setScale(3);
+                pepper.setScale(2);
+                mushroom.setScale(2);
+
+                apple.setInteractive();
+                carrot.setInteractive();
+                eggplant.setInteractive();
+                melon.setInteractive();
+                tomato.setInteractive();
+                onion.setInteractive();
+                pineapple.setInteractive();
+                pepper.setInteractive();
+                mushroom.setInteractive();
+
+                this.input.setDraggable(apple);
+                this.input.setDraggable(carrot);
+                this.input.setDraggable(eggplant);
+                this.input.setDraggable(melon);
+                this.input.setDraggable(tomato);
+                this.input.setDraggable(onion);
+                this.input.setDraggable(pineapple);
+                this.input.setDraggable(pepper);
+                this.input.setDraggable(mushroom);
+
+                this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+
+                    gameObject.x = dragX;
+                    gameObject.y = dragY;
+
+                });
+            }
+
+            </script>
+        <div><a href="index.html">Home</a></div>
+</body>
+
+
+</html>
