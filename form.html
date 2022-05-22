@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Form Lab</h1>
+
+<form action="/action_page.php">
+  <label for="title">Title:</label>
+  <input type="text" id="title" name="title" size="40" maxlength="40" onkeydown="return (event.keyCode!=13);">
+  <br><br>
+  <textarea id="note" name="note" rows="10" cols="80" oninput="myFunction()"></textarea>
+  <br><br>
+  <button id="clear" type="button">Clear</button>
+</form>
+
+<br>
+        <a href="index.html">Home</a>
+
+        <script>
+                window.addEventListener("load", myFunction, false);
+                
+                var x = document.getElementById("title");
+                var y = document.getElementById("note");
+
+                var clear = document.getElementById("clear");
+                clear.onclick = function() {
+                    x.value = "";
+                    y.value = "";
+                }
+
+                function myFunction() {
+                    localStorage.setItem(x.value, y.value);
+                }
+
+        </script>
+</body>
+</html>
